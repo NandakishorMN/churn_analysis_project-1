@@ -1,8 +1,9 @@
 import streamlit as st
 import joblib
+import pandas as pd
 
-loaded_model = joblib.load('logistic_regression_model.pkl')
-print(loaded_model)
+model = joblib.load('logistic_regression_model.pkl')
+print(model)
 
 st.title("Logistic Regression")
 
@@ -46,3 +47,34 @@ payment_method = payment_method_map[st.radio("What was the payment method used?"
 monthly_charges = st.number_input("Enter the often monthly charges", min_value=0.0, max_value=10000.0, value=1.5, step=0.01)
 total_charges = st.number_input("Enter the often Total Charges", min_value=0.0, max_value=100000.0, value=1.5, step=0.01)
 
+input_data = pd.DataFrame({
+    'gender': [gender],
+    'SeniorCitizen': [senior_citizen],
+    'Partner': [partner],
+    'Dependents': [dependents],
+    'tenure': [tenure],
+    'PhoneService': [phone_service],
+    'MultipleLines': [multiple_lines],
+    'InternetService': [internet_service],
+    'OnlineSecurity': [online_security],
+    'DeviceProtection': [device_protection],
+    'TechSupport': [tech_support],
+    'StreamingTV': [streaming_tv],
+    'StreamingMovies': [streaming_movies],
+    'Contract': [contract],
+    'PaperlessBilling': [paperless_billing],
+    'PaymentMethod': [payment_method],
+    'MonthlyCharges': [monthly_charges],
+    'TotalCharges': [total_charges]
+})
+prediction=model.predict(input_data)
+if prediction[0] == 1:
+    st.write("Customer is likely to Churn.")
+    gif_sad="https://media.giphy.com/media/9Y5BbDSkSTiY8/giphy.gif?cid=790b7611qyvu91nhsz0jwtkjlkzcd0a3ep1eqfuh5d6d597v&ep=v1_gifs_search&rid=giphy.gif&ct=g"
+    st.image(gif_sad,use_column_width=True)
+
+    
+else:
+    st.write("Customer is unlikely to Churn.")
+    gif_hap="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3R1ZTNwY2tkYml4bWdyeGlhaXRmMm9hN2JuYzhvYnZ0eTZ5NzV0diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9dg/G96zgIcQn1L2xpmdxi/giphy.gif"
+    st.image(gif_hap,use_column_width=True)
