@@ -50,7 +50,6 @@ monthly_charges = st.number_input("Enter the often monthly charges", min_value=0
 total_charges = st.number_input("Enter the often Total Charges", min_value=0.0, max_value=100000.0, value=1.5, step=0.01)
 
 input_data = pd.DataFrame({
-    'customerID':['9237-HQITU'],
     'gender': [gender],
     'SeniorCitizen': [senior_citizen],
     'Partner': [partner],
