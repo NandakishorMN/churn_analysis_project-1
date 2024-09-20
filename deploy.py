@@ -5,7 +5,7 @@ import pandas as pd
 model = joblib.load('logistic_regression_model.pkl')
 print(model)
 
-st.title("Logistic Regression")
+st.title("CHURN PREDICTION")
 
 gender_map = {'Male': 0, 'Female': 1}
 senior_citizen_map = {'Yes': 1, 'No': 0}
@@ -23,32 +23,31 @@ streaming_movies_map = {'Yes': 1, 'No': 0, 'No internet service': 2}
 contract_map = {'Month-to-month': 0, 'One year': 1, 'Two year': 2}
 paperless_billing_map = {'Yes': 1, 'No': 0}
 payment_method_map = {'Electronic check': 0, 'Mailed check': 1, 'Bank transfer (automatic)': 2, 'Credit card (automatic)': 3}
-
-gender = gender_map[st.radio("Select Gender", ['Male', 'Female'])]
-senior_citizen = senior_citizen_map[st.radio("Is the person a Senior Citizen?", ['Yes', 'No'])]
-partner = partner_map[st.radio("Do you have a partner?", ['Yes', 'No'])]
-dependents = dependents_map[st.radio("Do you have children or your parents?", ['Yes', 'No'])]
-tenure = st.number_input("Enter the number of months you have been using our subscription", min_value=0, max_value=100, value=10)
-phone_service = phone_service_map[st.radio("Are you using a phone service?", ['Yes', 'No'])]
-multiple_lines = multiple_lines_map[st.radio("Are you using multiple lines?", ['Yes', 'No', 'No phone service'])]
-internet_service = internet_service_map[st.radio("Which internet service?", ['DSL', 'Fiber optic', 'No'])]
-online_security = online_security_map[st.radio("Do you have antivirus?", ['Yes', 'No', 'No internet service'])]
+########################################
+gender = gender_map[st.radio("Select Gender", ['Male', 'Female'], key='gender')]
+senior_citizen = senior_citizen_map[st.radio("Is the person a Senior Citizen?", ['Yes', 'No'], key='senior_citizen')]
+partner = partner_map[st.radio("Do you have a partner?", ['Yes', 'No'], key='partner')]
+dependents = dependents_map[st.radio("Do you have children or your parents?", ['Yes', 'No'], key='dependents')]
+tenure = st.number_input("Enter the number of months you have been using our subscription", min_value=0, max_value=100, value=10, key='tenure')
+phone_service = phone_service_map[st.radio("Are you using a phone service?", ['Yes', 'No'], key='phone_service')]
+multiple_lines = multiple_lines_map[st.radio("Are you using multiple lines?", ['Yes', 'No', 'No phone service'], key='multiple_lines')]
+internet_service = internet_service_map[st.radio("Which internet service?", ['DSL', 'Fiber optic', 'No'], key='internet_service')]
+online_security = online_security_map[st.radio("Do you have antivirus?", ['Yes', 'No', 'No internet service'], key='online_security')]
 
 if online_security != 2:
-    OnlineBackup = OnlineBackup_map[st.radio("Do you have any means of Device Protection?", ['Yes', 'No', 'No internet service'])]
-    device_protection = device_protection_map[st.radio("Do you have any means of Device Protection?", ['Yes', 'No', 'No internet service'])]
-    tech_support = tech_support_map[st.radio("Do you have any Tech Support?", ['Yes', 'No', 'No internet service'])]
-    streaming_tv = streaming_tv_map[st.radio("Do you Stream on TV?", ['Yes', 'No', 'No internet service'])]
-    streaming_movies = streaming_movies_map[st.radio("Do you Stream movies?", ['Yes', 'No', 'No internet service'])]
+    OnlineBackup = OnlineBackup_map[st.radio("Do you have any means of Online Backup?", ['Yes', 'No', 'No internet service'], key='online_backup')]
+    device_protection = device_protection_map[st.radio("Do you have any means of Device Protection?", ['Yes', 'No', 'No internet service'], key='device_protection')]
+    tech_support = tech_support_map[st.radio("Do you have any Tech Support?", ['Yes', 'No', 'No internet service'], key='tech_support')]
+    streaming_tv = streaming_tv_map[st.radio("Do you Stream on TV?", ['Yes', 'No', 'No internet service'], key='streaming_tv')]
+    streaming_movies = streaming_movies_map[st.radio("Do you Stream movies?", ['Yes', 'No', 'No internet service'], key='streaming_movies')]
 else:
-    OnlineBackup,device_protection, tech_support, streaming_tv, streaming_movies = [2]*4
+    OnlineBackup, device_protection, tech_support, streaming_tv, streaming_movies = [2]*5
 
-contract = contract_map[st.radio("What is the type of service you have?", ['Month-to-month', 'One year', 'Two year'])]
-paperless_billing = paperless_billing_map[st.radio("Was it a Paperless Billing?", ['Yes', 'No'])]
-payment_method = payment_method_map[st.radio("What was the payment method used?", ['Electronic check', 'Mailed check', 'Bank transfer (automatic)', 'Credit card (automatic)'])]
-monthly_charges = st.number_input("Enter the often monthly charges", min_value=0.0, max_value=10000.0, value=1.5, step=0.01)
-total_charges = st.number_input("Enter the often Total Charges", min_value=0.0, max_value=100000.0, value=1.5, step=0.01)
-
+contract = contract_map[st.radio("What is the type of service you have?", ['Month-to-month', 'One year', 'Two year'], key='contract')]
+paperless_billing = paperless_billing_map[st.radio("Was it a Paperless Billing?", ['Yes', 'No'], key='paperless_billing')]
+payment_method = payment_method_map[st.radio("What was the payment method used?", ['Electronic check', 'Mailed check', 'Bank transfer (automatic)', 'Credit card (automatic)'], key='payment_method')]
+monthly_charges = st.number_input("Enter the often monthly charges", min_value=0.0, max_value=10000.0, value=1.5, step=0.01, key='monthly_charges')
+total_charges = st.number_input("Enter the often Total Charges", min_value=0.0, max_value=100000.0, value=1.5, step=0.01, key='total_charges')
 input_data = pd.DataFrame({
     'gender': [gender],
     'SeniorCitizen': [senior_citizen],
@@ -57,7 +56,7 @@ input_data = pd.DataFrame({
     'tenure': [tenure],
     'PhoneService': [phone_service],
     'MultipleLines': [multiple_lines],
-    'InternetService': [internet_service],
+    'InternetService': [internet_service],  
     'OnlineSecurity': [online_security],
     'OnlineBackup':[OnlineBackup],
     'DeviceProtection': [device_protection],
