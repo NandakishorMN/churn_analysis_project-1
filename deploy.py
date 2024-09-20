@@ -69,14 +69,13 @@ input_data = pd.DataFrame({
     'MonthlyCharges': [monthly_charges],
     'TotalCharges': [total_charges]
 })
-prediction=model.predict(input_data)
-if prediction[0] == 1:
-    st.write("Customer is likely to Churn.")
-    gif_sad="https://media.giphy.com/media/9Y5BbDSkSTiY8/giphy.gif?cid=790b7611qyvu91nhsz0jwtkjlkzcd0a3ep1eqfuh5d6d597v&ep=v1_gifs_search&rid=giphy.gif&ct=g"
-    st.image(gif_sad,use_column_width=True)
-
-    
-else:
-    st.write("Customer is unlikely to Churn.")
-    gif_hap="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3R1ZTNwY2tkYml4bWdyeGlhaXRmMm9hN2JuYzhvYnZ0eTZ5NzV0diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9dg/G96zgIcQn1L2xpmdxi/giphy.gif"
-    st.image(gif_hap,use_column_width=True)
+if st.button('PREDICT'):
+    prediction=model.predict(input_data)
+    if prediction[0] == 1:
+        st.write("Customer is likely to Churn.")
+        gif_sad="https://media.giphy.com/media/9Y5BbDSkSTiY8/giphy.gif?cid=790b7611qyvu91nhsz0jwtkjlkzcd0a3ep1eqfuh5d6d597v&ep=v1_gifs_search&rid=giphy.gif&ct=g"
+        st.image(gif_sad,use_column_width=True)
+    else:
+        st.write("Customer is unlikely to Churn.")
+        gif_hap="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3R1ZTNwY2tkYml4bWdyeGlhaXRmMm9hN2JuYzhvYnZ0eTZ5NzV0diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9dg/G96zgIcQn1L2xpmdxi/giphy.gif"
+        st.image(gif_hap,use_column_width=True)
