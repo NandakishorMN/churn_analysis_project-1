@@ -15,6 +15,7 @@ phone_service_map = {'Yes': 1, 'No': 0}
 multiple_lines_map = {'Yes': 1, 'No': 0, 'No phone service': 2}
 internet_service_map = {'DSL': 0, 'Fiber optic': 1, 'No': 2}
 online_security_map = {'Yes': 1, 'No': 0, 'No internet service': 2}
+OnlineBackup_map={'Yes': 1, 'No': 0, 'No internet service': 2}
 device_protection_map = {'Yes': 1, 'No': 0, 'No internet service': 2}
 tech_support_map = {'Yes': 1, 'No': 0, 'No internet service': 2}
 streaming_tv_map = {'Yes': 1, 'No': 0, 'No internet service': 2}
@@ -34,12 +35,13 @@ internet_service = internet_service_map[st.radio("Which internet service?", ['DS
 online_security = online_security_map[st.radio("Do you have antivirus?", ['Yes', 'No', 'No internet service'])]
 
 if online_security != 2:
+    OnlineBackup = OnlineBackup_map[st.radio("Do you have any means of Device Protection?", ['Yes', 'No', 'No internet service'])]
     device_protection = device_protection_map[st.radio("Do you have any means of Device Protection?", ['Yes', 'No', 'No internet service'])]
     tech_support = tech_support_map[st.radio("Do you have any Tech Support?", ['Yes', 'No', 'No internet service'])]
     streaming_tv = streaming_tv_map[st.radio("Do you Stream on TV?", ['Yes', 'No', 'No internet service'])]
     streaming_movies = streaming_movies_map[st.radio("Do you Stream movies?", ['Yes', 'No', 'No internet service'])]
 else:
-    device_protection, tech_support, streaming_tv, streaming_movies = [2]*4
+    OnlineBackup,device_protection, tech_support, streaming_tv, streaming_movies = [2]*4
 
 contract = contract_map[st.radio("What is the type of service you have?", ['Month-to-month', 'One year', 'Two year'])]
 paperless_billing = paperless_billing_map[st.radio("Was it a Paperless Billing?", ['Yes', 'No'])]
@@ -48,6 +50,7 @@ monthly_charges = st.number_input("Enter the often monthly charges", min_value=0
 total_charges = st.number_input("Enter the often Total Charges", min_value=0.0, max_value=100000.0, value=1.5, step=0.01)
 
 input_data = pd.DataFrame({
+    'customerID':['9237-HQITU'],
     'gender': [gender],
     'SeniorCitizen': [senior_citizen],
     'Partner': [partner],
@@ -56,6 +59,7 @@ input_data = pd.DataFrame({
     'PhoneService': [phone_service],
     'MultipleLines': [multiple_lines],
     'InternetService': [internet_service],
+    'OnlineBackup':[OnlineBackup],
     'OnlineSecurity': [online_security],
     'DeviceProtection': [device_protection],
     'TechSupport': [tech_support],
